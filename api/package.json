@@ -1,0 +1,23 @@
+{
+  "name": "memuy_api",
+  "version": "1.0.0",
+  "description": "Memuy RESTful API",
+  "main": "memuy_api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dygufa/memuy.git"
+  },
+  "author": "Rodrigo Araujo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dygufa/memuy/issues"
+  },
+  "homepage": "https://github.com/dygufa/memuy#readme",
+  "dependencies": {
+    "mongoose": "^4.4.12",
+    "restify": "^4.0.4"
+  }
+}
