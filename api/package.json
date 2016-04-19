@@ -18,6 +18,7 @@
   "homepage": "https://github.com/dygufa/memuy#readme",
   "dependencies": {
     "mongoose": "^4.4.12",
-    "restify": "^4.0.4"
+    "restify": "^4.0.4",
+    "socket.io": "^1.4.5"
   }
 }
