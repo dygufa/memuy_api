@@ -8,6 +8,6 @@ var KeySchema = new Schema({
     local_server_adress: String,
     device_id: String,
     created_at: Date,
-    files: [File.schema]
+    files: [mongoose.model('File').schema]
 });
 mongoose.model('Key', KeySchema);
