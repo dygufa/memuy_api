@@ -1,5 +1,16 @@
 var restify = require('restify'), 
-    fs = require('fs')
+    fs = require('fs'),
+    socketio_options = {}
+
+var server = restify.createServer()
+server.use(restify.fullResponse()).use(restify.bodyParser())
+    
+if (process.env.NODE_ENV == 'dev') {
+    socketio_options = {'origins': '*:*'}
+}
+
+var socketio = require('socket.io')(socketio_options),
+    io = socketio.listen(server.server)
 
 var controllers = {}, 
     controllers_path = process.cwd() + '/app/controllers'
@@ -10,13 +21,9 @@ fs.readdirSync(controllers_path).forEach(function (file) {
     }
 })
 
-var server = restify.createServer();
-server.use(restify.fullResponse()).use(restify.bodyParser())
+io.on('connection', controllers.socket)
 
-server.get("/keys/generate", controllers.key.generateKey)
-server.post("/keys/verify", controllers.key.verifyKey)
-
-server.get("/files/", controllers.file.indexFiles)
+server.get("/files/", controllers.file.listFiles)
 server.post("/files", controllers.file.addFile)
 server.get("/files/:id", controllers.file.getFile)
 server.put("/files/:id", controllers.file.updateFile)
@@ -27,7 +34,7 @@ var port = process.env.PORT || 3000;
 server.listen(port, function (err) {
     if (err) {
         console.error(err)
-    } selse {
+    } else {
         console.log('App is ready at : ' + port)
     }
 })
