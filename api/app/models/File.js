@@ -2,7 +2,11 @@ var mongoose = require("mongoose");
 var Schema   = mongoose.Schema;
 
 var FileSchema = new Schema({
-    file_name: String,
-    created_at: Date,
-});
+    name: String,
+    size: Number,
+    type: String,
+    originalName: String
+}, {
+    timestamps: true
+})
 mongoose.model('File', FileSchema);
