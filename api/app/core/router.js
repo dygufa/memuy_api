@@ -82,6 +82,21 @@ server.post("/files", controllers.file.addFile(io))
 server.put("/files/:id", controllers.file.updateFile(io))
 server.del("/files/:id", controllers.file.deleteFile(io))
 
+
+
+server.get(/\/public\/?.*/, restify.serveStatic({
+    'directory': './static_content'
+}));
+
+server.get(/.*/, restify.serveStatic({
+    'directory': 'static_content',
+    file: 'public/index.html'
+}));
+
+server.get(/.*/, function(req, res, next) {
+    res.send({msg: 'oi'})
+})
+
 var port = process.env.PORT || 3000;
 
 server.listen(port, function (err) {

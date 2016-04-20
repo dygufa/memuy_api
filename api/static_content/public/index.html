@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" /> 
+	<title>Memuy</title>
+	<style>
+	#file-container {
+		background: #ccc;
+		padding: 20px;
+	}
+
+	#template-container {
+		display: none;
+	}
+
+	#msg {
+		display: none;
+	}
+
+	</style>
+</head>
+<body>
+	<h1>Room: <span id="roomName"></span></h1>
+	<div id="qrcode"></div>
+
+	<div id="msg"></div>
+
+	<br/>
+
+	<form action="">
+		<label>Sala para qual você quer ir:</label>
+    	<input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+
+    <br/>
+
+    <div id="file-container">
+		<ul id="files" class="dropzone-previews">
+		</ul>
+	</div>
+
+	<div id="template-container">
+		<li><a href="#" target="_blank" class="file-link" data-dz-name></a> <span data-dz-size></span> <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div></li>
+	</div>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script src="/public/assets/js/dropzone.js"></script>
+	<script src="/public/assets/js/qrcode.min.js"></script>
+
+	<script>
+	var rand = function() {
+    	return Math.random().toString(36).substr(2);
+	};
+
+	var token = function() {
+	    return rand() + rand();
+	};
+
+
+	var socket = io('http://localhost:5010'),
+		currentRoom = null,
+		roomOnPath,
+		identifier = token()
+
+	generateQRCode = function(room) {
+		var qrcode = new QRCode(document.getElementById("qrcode"), {
+		    text: room,
+		    width: 128,
+		    height: 128,
+		    colorDark : "#000000",
+		    colorLight : "#ffffff",
+		    correctLevel : QRCode.CorrectLevel.H
+		})
+	}
+
+	tryRoom = function(room, type) {
+		socket.emit('tryRoom', room, {type: type})
+	}
+
+	adjustPreviewAfterSave = function(element, fileObj) {
+		var fileElement = $(element),
+			link = '/public/uploads/' + fileObj.name
+
+		//console.log(fileElement.innerHTML);
+		fileElement.find('.file-link').attr('href', link)
+	}
+
+	addFile = function(fileObj) {
+		var mockFile = {name: fileObj.originalName, size: fileObj.size}
+		myDropzone.emit("addedfile", mockFile);
+		myDropzone.emit("complete", mockFile);
+
+		adjustPreviewAfterSave(mockFile.previewElement, fileObj)
+	}
+
+	roomOnPath = window.location.pathname.replace('/', '')
+
+	if (roomOnPath == '') {
+		socket.emit('newRoom')
+	} else {
+		tryRoom(roomOnPath, 'url')
+	}
+
+	socket.on('roomData', function(roomObj) {
+		var roomName = roomObj.room
+		currentRoom = roomName
+	    $('#roomName').text(roomName)
+	    generateQRCode(roomName)
+
+	    window.history.pushState({}, 'Memuy', '/' + roomName);
+
+	    roomObj.files.forEach(function(file) {
+			addFile(file)
+	    })
+	});	
+
+	socket.on('newFile', function(res) {
+		if (res.identifier != identifier) {
+			addFile(res.file)
+		}
+	})
+
+	socket.on('roomError', function(errorCode) {
+		var msg
+
+		if (errorCode == 4041) {
+			msg = 'Foi mal! Não estou encontrando esta sala. Por questões de segurança não é possível personalizar o nome de uma sala. Clique <a href="#" class="gotoNewRoom">aqui</a> para entrar em uma nova sala.'
+		} else if (errorCode == 4042) {
+			msg = 'Foi mal! Não encontrei esta sala.'
+		}
+
+		$('#msg').html(msg).show()
+	})
+
+	$('body').on('click', '.gotoNewRoom', function () {
+        socket.emit('newRoom')
+    });
+
+	$('form').submit(function(){
+		tryRoom($('#m').val(), 'form')
+		$('#m').val('')
+		return false
+	});
+
+
+	var myDropzone = new Dropzone("div#file-container", {
+		method: 'post', 
+		url: "http://localhost:5010/files",
+		previewsContainer: ".dropzone-previews",
+		previewTemplate: document.querySelector('#template-container').innerHTML,
+		clickable: false,
+		sending: function(file, xhr, formData) {
+			formData.append('roomName', currentRoom)
+			formData.append('identifier', identifier)
+		},
+		success: function(file, res) {
+			$(file.previewElement).attr('id', 'file-' + res.file._id)
+			adjustPreviewAfterSave(file.previewElement, res.file)
+		}
+	});
+	</script>
+</body>
+</html>
