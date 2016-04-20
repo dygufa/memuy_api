@@ -152,7 +152,11 @@
     });
 
 	$('form').submit(function(){
-		tryRoom($('#m').val(), 'form')
+		var newRoom = $('#m').val()
+		if (currentRoom == newRoom) {
+			return false
+		}
+		tryRoom(newRoom, 'form')
 		$('#m').val('')
 		return false
 	});
