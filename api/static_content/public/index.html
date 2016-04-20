@@ -7,7 +7,7 @@
 	#file-container {
 		background: #ccc;
 		padding: 20px;
-		min-height: 400px;
+		min-height: 300px;
 	}
 
 	#template-container {
@@ -21,7 +21,18 @@
 	</style>
 </head>
 <body>
-	<h1>Room: <span id="roomName"></span></h1>
+	<h1>Memuy</h1>
+	<p>
+		<b>Como funciona:</b> Ao entrar no Memuy pela primeira vez você é colocado em uma sala aleatória, a partir deste momento você pode arrastar arquivos para a área indicada abaixo e todas as pessoas que estiverem com a sala aberta os receberão em tempo real! Para compartilhar uma sala basta enviar a URL ou então somente o nome da sala para ser informado no campo abaixo. :)
+		<br/>
+		Você pode testar usando duas janelas no seu browser!
+	</p>
+
+	<h2>Room: <span id="roomName"></span></h2>
+	<a href="#" class="gotoNewRoom">Criar nova sala</a>
+
+	<br/>
+
 	<div id="qrcode"></div>
 
 	<div id="msg"></div>
