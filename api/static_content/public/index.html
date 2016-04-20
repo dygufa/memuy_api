@@ -148,7 +148,7 @@
 	})
 
 	$('body').on('click', '.gotoNewRoom', function () {
-        socket.emit('newRoom')
+        window.location.href = "/";
     });
 
 	$('form').submit(function(){
