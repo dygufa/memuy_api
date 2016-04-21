@@ -59,7 +59,9 @@
 	</div>
 
 	<div id="template-container">
-		<div class="file"><a href="#" target="_blank" class="file-link" data-dz-name></a> <span data-dz-size></span> <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div></div>
+		<div class="file">
+			<a href="#" target="_blank" class="file-link" data-dz-name></a> <span data-dz-size></span> <span class="file-progress"></span>
+		</div>
 	</div>
 
 	<script src="/socket.io/socket.io.js"></script>
@@ -80,17 +82,22 @@
 	var socket = io(),
 		currentRoom = null,
 		roomOnPath,
-		identifier = token()
+		identifier = token(),
+		qrcodeObj = null
 
 	generateQRCode = function(room) {
-		var qrcode = new QRCode(document.getElementById("qrcode"), {
-		    text: room,
-		    width: 128,
-		    height: 128,
-		    colorDark : "#000000",
-		    colorLight : "#ffffff",
-		    correctLevel : QRCode.CorrectLevel.H
-		})
+		if (qrcodeObj == null) {
+			qrcodeObj = new QRCode(document.getElementById("qrcode"), {
+			    text: room,
+			    width: 128,
+			    height: 128,
+			    colorDark : "#000000",
+			    colorLight : "#ffffff",
+			    correctLevel : QRCode.CorrectLevel.H
+			})
+		} else {
+			qrcodeObj.makeCode(room)
+		}
 	}
 
 	tryRoom = function(room, type) {
@@ -169,6 +176,7 @@
 	var myDropzone = new Dropzone("div#file-container", {
 		method: 'post', 
 		url: "/files",
+		maxFilesize: 5000,
 		previewsContainer: ".dropzone-previews",
 		previewTemplate: document.querySelector('#template-container').innerHTML,
 		clickable: '.send-file',
@@ -179,6 +187,9 @@
 		success: function(file, res) {
 			$(file.previewElement).attr('id', 'file-' + res.file._id)
 			adjustPreviewAfterSave(file.previewElement, res.file)
+		},
+		uploadprogress: function(file, progress, bytesSent) {
+			$(file.previewElement).find('.file-progress').html(progress)
 		}
 	});
 	</script>
