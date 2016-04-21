@@ -14,7 +14,7 @@ exports.addFile = function(io) {
 		fs.readFile(file.path, function (err, data) {
 			console.log(err);
 
-			var newFileName = (room + '-' + Date.now() + '-' + file.name).replace(' ', '_'),
+			var newFileName = room + '-' + Date.now() + '-' + file.name.replace(' ', '_'),
 				newPath = process.cwd() + '/static_content/public/uploads/' + newFileName
 
 			fs.writeFile(newPath, data, function (err) {
