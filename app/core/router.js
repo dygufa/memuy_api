@@ -3,7 +3,8 @@ var restify = require('restify'),
     socketio_options = {}
 
 var server = restify.createServer()
-server.use(restify.fullResponse()).use(restify.bodyParser())
+server.use(restify.fullResponse())
+server.use(restify.bodyParser())
     
 if (process.env.NODE_ENV == 'dev') {
     server.use(restify.CORS())
