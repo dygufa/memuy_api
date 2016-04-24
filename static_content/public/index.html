@@ -27,13 +27,19 @@
 <body>
 	<h1>Memuy</h1>
 	<p>
+		<!--
 		<b>Como funciona:</b> Ao entrar no Memuy pela primeira vez você é colocado em uma sala aleatória, a partir deste momento você pode arrastar arquivos para a área indicada abaixo e todas as pessoas que estiverem com a sala aberta os receberão em tempo real! Para compartilhar uma sala basta enviar a URL ou então somente o nome da sala para ser informado no campo abaixo. :)
 		<br/>
 		Você pode testar usando duas janelas no seu browser!
+		-->
+
+		<b>How it works:</b> Once you acecss Memuy you will be placed in a random room, from this moment on you can drag files making them available to everyone on the room. To share the room you just need to send the room name or the URL to your friends.
+		<br/>
+		You can test it using multiple windows on your browser!
 	</p>
 
 	<h2>Room: <span id="roomName"></span></h2>
-	<a href="#" class="gotoNewRoom">Criar nova sala</a>
+	<a href="#" class="gotoNewRoom">Go to new room</a>
 
 	<br/>
 
@@ -44,14 +50,14 @@
 	<br/>
 
 	<form action="">
-		<label>Sala para qual você quer ir:</label>
+		<label>Go to :</label>
     	<input id="m" autocomplete="off" /><button>Send</button>
     </form>
 
     <br/>
 
-    Para fazer upload arraste os arquivos para a área abaixo ou clique no botão ao lado:
-    <button class="send-file">Enviar arquivo!</button>
+    Drag the file or click in the button
+    <button class="send-file">Send file</button>
 
     <div id="file-container">
 		<div id="files" class="dropzone-previews">
@@ -151,9 +157,11 @@
 		var msg
 
 		if (errorCode == 4041) {
-			msg = 'Foi mal! Não estou encontrando esta sala. Por questões de segurança não é possível personalizar o nome de uma sala. Clique <a href="#" class="gotoNewRoom">aqui</a> para entrar em uma nova sala.'
+			//msg = 'Foi mal! Não estou encontrando esta sala. Por questões de segurança não é possível personalizar o nome de uma sala. Clique <a href="#" class="gotoNewRoom">aqui</a> para entrar em uma nova sala.'
+			msg = 'Sorry! I cannot find this room and for security reasons it\'s not possible to personalize the name of the rooms. Click <a href="#" class="gotoNewRoom">here</a> to go to a new random room.';
 		} else if (errorCode == 4042) {
-			msg = 'Foi mal! Não encontrei esta sala.'
+			//msg = 'Foi mal! Não encontrei esta sala.'
+			msg = 'Sorry! I cannot find this room. :('
 		}
 
 		$('#msg').html(msg).show()
