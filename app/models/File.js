@@ -4,8 +4,9 @@ var Schema   = mongoose.Schema;
 var FileSchema = new Schema({
     name: String,
     size: Number,
-    type: String,
-    originalName: String
+    mimetype: String,
+    originalName: String,
+    location: String
 }, {
     timestamps: true
 })

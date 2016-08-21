@@ -4,7 +4,8 @@
   "description": "Memuy RESTful API",
   "main": "memuy_api.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node memuy_api.js",
+    "dev": "nodemon memuy_api.js"
   },
   "repository": {
     "type": "git",
@@ -17,8 +18,17 @@
   },
   "homepage": "https://github.com/dygufa/memuy#readme",
   "dependencies": {
+    "aws-sdk": "^2.3.18",
+    "bluebird": "^3.4.0",
+    "body-parser": "^1.15.1",
+    "cors": "^2.7.1",
+    "dotenv": "^2.0.0",
+    "express": "^4.13.4",
+    "mime-types": "^2.1.11",
     "mongoose": "^4.4.12",
+    "multer": "^1.1.0",
     "restify": "^4.0.4",
+    "slug": "^0.9.1",
     "socket.io": "^1.4.5"
   }
 }

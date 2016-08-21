@@ -1,5 +1,6 @@
-var mongoose = require('mongoose'), 
-	fs = require('fs'), 
+var dotenv      = require('dotenv').config(),
+    mongoose    = require('mongoose'), 
+	fs          = require('fs'), 
 	models_path = process.cwd() + '/app/models'
 
 mongoose.connect(process.env.MONGO_URL, {server:{auto_reconnect:true}})
