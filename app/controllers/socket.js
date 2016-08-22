@@ -56,7 +56,7 @@ tryRoom = function(room, callback) {
 }
 
 getWord = function(callback) {
-	Word.findOne('', function(err, resm) {
+	Word.findOne({}, function(err, resm) {
 		callback(resm.word)
 	});
 }
