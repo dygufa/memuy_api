@@ -11,7 +11,7 @@ mongoose.model('Word', WordSchema);
 
 var Word = mongoose.model("Word");
 
-Word.findOne('', function(err, res) {
+Word.findOne({}, function(err, res) {
 	if (err) {
 		return console.log(err);
 	}
