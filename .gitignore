@@ -1,3 +1,4 @@
 node_modules/
 static_content/public/uploads/
 .env
+tunnelssh.sh
