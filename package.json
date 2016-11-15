@@ -4,7 +4,7 @@
   "description": "Memuy RESTful API",
   "main": "memuy_api.js",
   "scripts": {
-    "start": "node memuy_api.js",
+    "start": "node main.js",
     "dev": "nodemon memuy_api.js"
   },
   "repository": {
