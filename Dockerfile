@@ -12,7 +12,5 @@ RUN npm install
 # Bundle app source
 COPY . /usr/src/app
 
-ADD nginx.conf /etc/nginx/vhost.d/api.memuy.com
-
 EXPOSE 8093
 CMD [ "npm", "start" ]
