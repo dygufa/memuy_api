@@ -1,25 +1,26 @@
-var fs = require('fs'),
-	mongoose = require('mongoose'),
-    Room = mongoose.model("Room"),
-    File = mongoose.model("File"),
-    ObjectId = mongoose.Types.ObjectId,
-    aws         = require('aws-sdk'),
-    slug        = require('slug'),
-    mime        = require('mime-types'),
-    S3_BUCKET   = process.env.S3_BUCKET,
-    Promise     = require('bluebird');
+import fs from "fs";
+import mongoose from "mongoose";
+import { Request, Response, NextFunction } from "express";
+import { RoomModel as Room, FileModel as File} from "../models";
+const ObjectId = mongoose.Types.ObjectId;
+
+const aws = require("aws-sdk");
+const slug = require("slug");
+const mime = require("mime-types");
+
+const S3_BUCKET   = process.env.S3_BUCKET;
 
 
-function uploadFileToS3(data, callback) {
-    var file            = data.file,
+function uploadFileToS3(data: any, callback?: any) {
+    let file            = data.file,
     	room 			= data.room,
         filename        = slug(file.originalname.replace(/\.[^/.]+$/, "")),
         extension       = mime.extension(file.mimetype),
         newFilename     = 'r' + room + '-' + Date.now().toString() + '-' + filename + '.' + extension;
 
-    var fileStream = fs.createReadStream(file.path);
+    let fileStream = fs.createReadStream(file.path);
 
-    var s3obj = new aws.S3({
+    let s3obj = new aws.S3({
         params: {
             Bucket: S3_BUCKET,
             Key: newFilename,
@@ -29,7 +30,9 @@ function uploadFileToS3(data, callback) {
     });
 
     return new Promise(function(resolve, reject) {
-        s3obj.upload({Body: fileStream}).send(function(err, data) {
+        s3obj.upload({
+			Body: fileStream
+		}).send(function(err: any, data: any) {
             if (err) {
                 return reject(err);
             }
@@ -39,19 +42,19 @@ function uploadFileToS3(data, callback) {
     });
 }
 
-exports.addFile = function(io) {
-	return function(req, res, next) {
-		var room = req.body.roomName,
+export function addFile(io: any) {
+	return function(req: any, res: any, next: any) {
+		let room = req.body.roomName,
 			identifier = req.body.identifier,
 			file = req.file;
 
 		uploadFileToS3({
             file: file,
             room: room
-        }).then(function(fileS3) {
+        }).then(function(fileS3: any) {
         	fs.unlink(file.path);
 
-        	var newFile = new File({
+        	let newFile = new File({
 				name: fileS3.key,
 				originalName: file.originalname,
 				location: fileS3.Location,
@@ -65,8 +68,8 @@ exports.addFile = function(io) {
 					$push: {'files': newFile},
 					$inc: {'usedSpace': file.size}
 				},
-		        {safe: true, new : true},
-		        function(err, model) {
+		        {new : true},
+		        function(err: any, model: any) {
 		            io.to(room).emit('newFile', {file: newFile, identifier: identifier})
 		            res.send({ok: true, file: newFile})
 		        }
@@ -75,14 +78,14 @@ exports.addFile = function(io) {
 	}
 }
 
-exports.updateFile = function(io) {
-	return function(req, res, next) {
+export function updateFile(io: any) {
+	return function(req: Request, res: Response, next: NextFunction) {
 
 	}
 }
 
-exports.deleteFile = function(io) {
-	return function(req, res, next) {
+export function deleteFile(io: any) {
+	return function(req: Request, res: Response, next: NextFunction) {
 
 	}
 }
