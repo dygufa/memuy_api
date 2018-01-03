@@ -7,28 +7,23 @@ import socketio from "socket.io";
 
 require("./mongoose");
 
-import { FileController, RoomController } from "./app/controllers/";
+import { FileController, RoomController } from "./controllers/";
 
 let app = express();
 
 const server = http.createServer(app);
-let socketio_options = {};
 
-// Set directory for temporary uploaded files
 var cwd = process.cwd();
 var upload = multer({dest: cwd + "/static_content/temporary_files"});
 
 app.use(cors());
-
-// to support JSON-encoded bodies
 app.use(bodyParser.json());
-// to support URL-encoded bodies
 app.use(bodyParser.urlencoded({extended: true}));
 
+let socketio_options = {};
 if (process.env.NODE_ENV == "dev") {
     socketio_options = {"origins": "*:*"};
 }
-
 socketio(socketio_options);
 const io = socketio.listen(server);
 
