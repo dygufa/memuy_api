@@ -1,8 +1,80 @@
-# memuy
-App for sharing file between devices using simple keys.
+# Memuy
+App for sharing file between devices using short urls.
 
-## Database Schema (MongoDB)
+## Using
 
-## TO-DO
+### Response 
 
-1. Refazer usando ES6
+The response from the API is formatted as:
+
+```
+{
+    status: fail | success
+    data?: any 
+    error?:  Error
+} 
+
+Error {
+    name: string
+    message: string
+}
+```
+
+In case of success the API will return a 200 HTTP Code along with the "ok" parameter defined as true. In case of error the HTTP code will be the one that best fit the situation, "ok" will be false and "data" will return an object with the error name and the message related to the error.
+
+### Endpoints
+
+All the comunication is encoded using JSON (`application/json`), except for the endpoint `POST /files` that uses `multipart/form-data` in order to handle the file upload.
+
+URL | Content-Type | Body (POST) | Success Response |
+--- | --- | --- | ---
+GET /rooms/:id | - | - | Room
+POST /rooms | - | - | Room
+POST /files | `multipart/form-data` | Keys: i) roomName: containing the room's name; ii) file: the file to be uploaded. | File
+DELETE /files/:id | - | - | -
+
+### Types
+
+
+#### Room
+```
+Room {
+}
+```
+#### File
+```
+File {
+}
+```
+
+## Development
+
+### Requirements:
+
+* Node.js
+* MongoDB
+* AWS Account
+
+### Get the code:
+```
+git clone https://github.com/dygufa/memuy_api.git
+cd memuy_api
+yarn
+```
+
+### Define the environment variables
+
+In order to run this webserver you need to define the `.env` file using the `.env.example`:
+
+```
+cp .env.example .env
+nano .env
+```
+
+### Commands:
+
+- `yarn dev` will start a express webserver (mpmv.js) using nodemon and a webpack --watch instance to auto compile on file change. The port can be defined on the `.env` file.
+
+## Todos (by priority)
+
+
