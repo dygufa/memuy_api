@@ -24,8 +24,6 @@ In case of success the API will return a 200 HTTP Code along with the "ok" param
 
 ### Endpoints
 
-All the comunication is encoded using JSON (`application/json`), except for the endpoint `POST /files` that uses `multipart/form-data` in order to handle the file upload.
-
 URL | Content-Type | Body (POST) | Success Response |
 --- | --- | --- | ---
 GET /rooms/:id | - | - | Room
