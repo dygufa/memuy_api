@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import * as mongoose from "mongoose";
 var Schema = mongoose.Schema;
 
 interface IRoomModel extends mongoose.Document {

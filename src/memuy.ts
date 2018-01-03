@@ -1,9 +1,9 @@
 import * as http from "http";
-import express from "express";
-import cors from "cors";
+import * as express from "express";
+import * as cors from "cors";
 import * as bodyParser from "body-parser";
-import multer from "multer";
-import socketio from "socket.io";
+import * as multer from "multer";
+import * as socketio from "socket.io";
 
 require('dotenv').config({ silent: true });
 
@@ -25,15 +25,12 @@ let socketio_options = {};
 if (process.env.NODE_ENV == "development") {
     socketio_options = {"origins": "*:*"};
     // Avoiding EADDRINUSE with nodemon
-    // process.on('SIGUSR2', () => { 
-    //     console.log("teste");
-    //     server.close(() => {
-    //         console.log("closed");
-    //         // s
-    //     }); 
-    //     // process.exit(0); 
-    //     // oi
-    // });
+    process.on('SIGUSR2', () => { 
+        server.close(() => {
+            console.log("closed");
+        }); 
+        process.exit(0); 
+    });
 }
 socketio(socketio_options);
 const io = socketio.listen(server);
