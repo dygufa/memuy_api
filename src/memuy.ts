@@ -1,16 +1,17 @@
-import http from "http";
+import * as http from "http";
 import express from "express";
 import cors from "cors";
-import bodyParser from "body-parser";
+import * as bodyParser from "body-parser";
 import multer from "multer";
 import socketio from "socket.io";
+
+require('dotenv').config({ silent: true });
 
 require("./mongoose");
 
 import { FileController, RoomController } from "./controllers/";
 
 let app = express();
-
 const server = http.createServer(app);
 
 var cwd = process.cwd();
@@ -21,8 +22,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 let socketio_options = {};
-if (process.env.NODE_ENV == "dev") {
+if (process.env.NODE_ENV == "development") {
     socketio_options = {"origins": "*:*"};
+    // Avoiding EADDRINUSE with nodemon
+    // process.on('SIGUSR2', () => { 
+    //     console.log("teste");
+    //     server.close(() => {
+    //         console.log("closed");
+    //         // s
+    //     }); 
+    //     // process.exit(0); 
+    //     // oi
+    // });
 }
 socketio(socketio_options);
 const io = socketio.listen(server);

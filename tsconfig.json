@@ -2,8 +2,8 @@
   "compileOnSave": false,
   "compilerOptions": {
     "alwaysStrict": true,
-    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
     "sourceMap": true,

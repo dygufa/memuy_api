@@ -1,5 +1,4 @@
-import fs from "fs";
-import mongoose from "mongoose";
+import * as fs from "fs";
 import { Request, Response, NextFunction } from "express";
 import { RoomModel as Room, FileModel as File} from "../models/";
 import { upload } from "../helpers/s3";

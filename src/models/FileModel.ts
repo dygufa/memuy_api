@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
+// console.log(mongoose, Schema)
+
 export interface IFileModel extends mongoose.Document {
     name: string
     size: number

@@ -3,10 +3,7 @@ import mongoose from "mongoose";
 const MONGO_URL = process.env.MONGO_URL || "";
 
 mongoose.connect(MONGO_URL, {
-    useMongoClient: true,
-    server: {
-        auto_reconnect:true
-    }
+    useMongoClient: true
 });
 const db = mongoose.connection;
 
