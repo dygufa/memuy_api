@@ -2,9 +2,12 @@ import mongoose from "mongoose";
 
 const MONGO_URL = process.env.MONGO_URL || "";
 
-console.log("conectou?");
-
-mongoose.connect(MONGO_URL, {server:{auto_reconnect:true}})
+mongoose.connect(MONGO_URL, {
+    useMongoClient: true,
+    server: {
+        auto_reconnect:true
+    }
+});
 const db = mongoose.connection;
 
 db.on("error", function (err) {
