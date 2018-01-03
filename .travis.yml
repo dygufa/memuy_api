@@ -1,22 +1,22 @@
-# sudo: required
+sudo: required
 
-# language: python
+language: python
 
-# services:
-#   - docker
+services:
+  - docker
 
-# install:
-#   - echo "install nothing!"
+install:
+  - echo "install nothing!"
 
-# script:
-#   - echo "no tests!"
+script:
+  - echo "no tests!"
 
-# after_success:
-#   - docker --version 
-#   - pip install awscli
-#   - export PATH=$PATH:$HOME/.local/bin 
-#   - eval $(aws ecr get-login --no-include-email --region us-east-1) 
-#   - docker build -t memuy_api .
-#   - docker tag memuy_api:latest 426782010323.dkr.ecr.us-east-1.amazonaws.com/memuy_api:latest
-#   - docker push 426782010323.dkr.ecr.us-east-1.amazonaws.com/memuy_api:latest
+after_success:
+  - docker --version 
+  - pip install awscli
+  - export PATH=$PATH:$HOME/.local/bin 
+  - eval $(aws ecr get-login --no-include-email --region us-east-1) 
+  - docker build -t memuy_api .
+  - docker tag memuy_api:latest 426782010323.dkr.ecr.us-east-1.amazonaws.com/memuy_api:latest
+  - docker push 426782010323.dkr.ecr.us-east-1.amazonaws.com/memuy_api:latest
   
