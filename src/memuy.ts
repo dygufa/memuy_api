@@ -22,22 +22,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 let socketio_options = {};
-if (process.env.NODE_ENV == "development") {
+if (process.env.NODE_ENV === "development") {
     socketio_options = {"origins": "*:*"};
-    // Avoiding EADDRINUSE with nodemon
-    process.on('SIGUSR2', () => { 
-        server.close(() => {
-            console.log("closed");
-        }); 
-        process.exit(0); 
-    });
 }
 socketio(socketio_options);
 const io = socketio.listen(server);
 
 // io.on("connection", controllers.socket);
 
-app.get("/rooms/:id", RoomController.getRoom(io));
+app.get("/rooms/:name", RoomController.getRoom(io));
 app.post("/rooms", RoomController.createRoom(io));
 
 app.post("/files", upload.single("file"), FileController.addFile(io));
