@@ -1,5 +1,16 @@
 import { Request, Response, NextFunction } from "express";
 import { RoomModel as Room, WordModel as Word } from "../models/";
+import { IRoomModel } from "../models/RoomModel";
+import { only } from "sanitize-object";
+import { _sanitizeFile } from "./FileController";
+
+export const _sanitizeRoom = (room: IRoomModel) => {
+    const sanitizer = only("name", "status", "usedSpace", "maxSpace", "files", "createdAt");
+    const sanitizedRoom = sanitizer(room);
+    sanitizedRoom.files = sanitizedRoom.files.map(_sanitizeFile);
+    return sanitizedRoom;
+}
+
 
 const _generateIneditRoomName = async (): Promise<string> => {
     const wordEntry = await Word.findOne({}).exec();
@@ -21,11 +32,11 @@ const _generateIneditRoomName = async (): Promise<string> => {
 
 export const getRoom = (io: SocketIO.Server) => {
     return async (req: Request, res: Response, next: NextFunction) => {
-        const roomName = req.params.id;
+        const roomName = req.params.name;
         const room = await Room.findOne({ name: roomName });
 
         if (!room) {
-            res.send({
+            return res.send({
                 status: "fail", 
                 error: {
                     name: "roomNotFound",
@@ -36,7 +47,7 @@ export const getRoom = (io: SocketIO.Server) => {
 
         res.json({
             status: "success", 
-            data: room
+            data: _sanitizeRoom(room!.toObject() as IRoomModel)
         });
 	}
 }
@@ -54,10 +65,10 @@ export const createRoom = (io: SocketIO.Server) => {
 		});
 
         const room = await newRoom.save();
-        
+
         res.json({
             status: "success",
-            data: room
+            data: _sanitizeRoom(room!.toObject() as IRoomModel)
         });
 	}
 }

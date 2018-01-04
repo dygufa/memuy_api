@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
 var Schema = mongoose.Schema;
 
-interface IRoomModel extends mongoose.Document {
+export interface IRoomModel extends mongoose.Document {
     name: string
     status: string
     expiresOn: Date

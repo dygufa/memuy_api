@@ -2,12 +2,41 @@ import * as fs from "fs";
 import { Request, Response, NextFunction } from "express";
 import { RoomModel as Room, FileModel as File} from "../models/";
 import { upload } from "../helpers/s3";
+import { IFileModel } from "../models/FileModel";
+import { only } from "sanitize-object";
+
+export const _sanitizeFile = (room: IFileModel) => {
+	const sanitizer = only("name", "location", "size", "mimetype");
+	return sanitizer(room);
+}
 
 export const addFile = (io: SocketIO.Server) => {
 	return async (req: Request, res: Response, next: NextFunction) => {
 		const roomName = req.body.roomName;
 		const identifier = req.body.identifier;
 		const file = req.file;
+
+		if (!file) {
+			res.json({
+				status: "fail",
+				error: {
+					name: "fileMissing",
+					message: "The file is missing"
+				}
+			});
+		}
+
+		const room = await Room.findOne({ name: roomName });
+
+		if (!room) {
+			res.json({
+				status: "fail",
+				error: {
+					name: "invalidRoom",
+					message: "Invalid room"
+				}
+			});
+		}
 
 		const s3File = await upload(file);
 		fs.unlink(file.path);
@@ -32,9 +61,9 @@ export const addFile = (io: SocketIO.Server) => {
 					file: newFile, 
 					identifier: identifier
 				})
-				res.send({
-					ok: true, 
-					file: newFile
+				res.json({
+					status: "success", 
+					data: newFile
 				})
 			}
 		);
