@@ -13,7 +13,6 @@ export const _sanitizeFile = (room: IFileModel) => {
 export const addFile = (io: SocketIO.Server) => {
 	return async (req: Request, res: Response, next: NextFunction) => {
 		const roomName = req.body.roomName;
-		const identifier = req.body.identifier;
 		const file = req.file;
 
 		if (!file) {
@@ -63,13 +62,13 @@ export const addFile = (io: SocketIO.Server) => {
 			{new : true},
 			(err, model) => {
 				io.to(roomName).emit('newFile', { 
-					file: newFile, 
-					identifier: identifier
-				})
+					file: _sanitizeFile(newFile.toObject() as IFileModel)
+				});
+
 				res.json({
 					status: "success", 
-					data: newFile
-				})
+					data: _sanitizeFile(newFile.toObject() as IFileModel)
+				});
 			}
 		);
 	}
