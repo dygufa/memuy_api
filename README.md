@@ -75,4 +75,4 @@ nano .env
 
 ## Todos (by priority)
 
-
+1. Sentry
