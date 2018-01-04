@@ -1,5 +1,5 @@
 node_modules/
-static_content/public/uploads/
+static_content/temporary_files
 .env
 tunnelssh.sh
 dist/
