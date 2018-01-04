@@ -39,7 +39,12 @@ export const addFile = (io: SocketIO.Server) => {
 		}
 
 		const s3File = await upload(file);
-		fs.unlink(file.path);
+		// Removing local file
+		fs.unlink(file.path, (err) => {
+			if (err) {
+				console.log(err);
+			}
+		});
 
 		let newFile = new File({
 			name: s3File.Key,
