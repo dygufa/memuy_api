@@ -37,11 +37,21 @@ DELETE /files/:id | - | - | -
 #### Room
 ```
 Room {
+    name: string
+    status: string
+    usedSpace: number
+    maxSpace: number
+    files: File[]
+    createdAt: Date
 }
 ```
 #### File
 ```
 File {
+    name: string
+    location: string
+    size: number
+    mimetype: string
 }
 ```
 
