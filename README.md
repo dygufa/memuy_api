@@ -31,6 +31,17 @@ POST /rooms | - | - | Room
 POST /files | `multipart/form-data` | Keys: i) roomName: containing the room's name; ii) file: the file to be uploaded. | File
 DELETE /files/:id | - | - | -
 
+### Websocket
+
+In order to notify all tabs with a specific room open about new uploaded files there's an instance of socket\.io running. When a new file is sent to a room an event named "newFile" is broadcasted to the socket's room with the same name of the room, the payload of that message is:
+
+```
+{
+    roomName: string
+    file: File
+}  
+```
+
 ### Types
 
 
