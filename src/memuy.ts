@@ -29,13 +29,16 @@ socketio(socketio_options);
 const io = socketio.listen(server);
 
 // io.on("connection", controllers.socket);
+const api = express.Router();
 
-app.get("/rooms/:name", RoomController.getRoom(io));
-app.post("/rooms", RoomController.createRoom(io));
+api.get("/rooms/:name", RoomController.getRoom(io));
+api.post("/rooms", RoomController.createRoom(io));
 
-app.post("/files", upload.single("file"), FileController.addFile(io));
-app.put("/files/:id", FileController.updateFile(io));
-app.delete("/files/:id", FileController.deleteFile(io));
+api.post("/files", upload.single("file"), FileController.addFile(io));
+api.put("/files/:id", FileController.updateFile(io));
+api.delete("/files/:id", FileController.deleteFile(io));
+
+app.use('/v2', api);
 
 var port = process.env.PORT || 3000;
 
