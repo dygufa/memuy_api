@@ -5,7 +5,7 @@ import { only } from "sanitize-object";
 import { _sanitizeFile } from "./FileController";
 
 export const _sanitizeRoom = (room: IRoomModel) => {
-    const sanitizer = only("name", "status", "usedSpace", "maxSpace", "files", "createdAt");
+    const sanitizer = only("name", "status", "usedSpace", "maxSpace", "files", "createdAt", "expiresOn");
     const sanitizedRoom = sanitizer(room);
     sanitizedRoom.files = sanitizedRoom.files.map(_sanitizeFile);
     return sanitizedRoom;
@@ -60,7 +60,7 @@ export const createRoom = (io: SocketIO.Server) => {
 			name: roomName,
             status: "available",
             usedSpace: 0,
-            maxSpace: 100000000, // bytes = 100 Megabytes
+            maxSpace: 100 * 1024 * 1024, // bytes = 100 Megabytes
             expiresOn: new Date(+new Date() + 24*60*60*1000) // will exprie in 24 hours
 		});
 
