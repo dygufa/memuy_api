@@ -93,8 +93,9 @@ nano .env
 
 ### Commands:
 
-- `yarn dev` will start a express webserver (mpmv.js) using nodemon and a webpack --watch instance to auto compile on file change. The port can be defined on the `.env` file.
+- `yarn dev` will start a express webserver (mpmv.js) using nodemon and a tsc --watch instance to auto compile on file change. The port can be defined on the `.env` file.
 
 ## Todos (by priority)
 
-1. Sentry
+- [ ] Sentry
+- [ ] Unit test
