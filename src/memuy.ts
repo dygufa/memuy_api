@@ -26,9 +26,17 @@ if (process.env.NODE_ENV === "development") {
     socketio_options = {"origins": "*:*"};
 }
 socketio(socketio_options);
-const io = socketio.listen(server);
+const io = socketio.listen(server, {
+    path: "/v2/socketio",
+    serveClient: false,
+});
 
-// io.on("connection", controllers.socket);
+io.on("connection", socket => {
+    socket.on("joinRoom", (roomName) => {
+        socket.join(roomName);
+    });
+});
+
 const api = express.Router();
 
 api.get("/rooms/:name", RoomController.getRoom(io));

@@ -62,6 +62,7 @@ export const addFile = (io: SocketIO.Server) => {
 			{new : true},
 			(err, model) => {
 				io.to(roomName).emit('newFile', { 
+					roomName,
 					file: _sanitizeFile(newFile.toObject() as IFileModel)
 				});
 
