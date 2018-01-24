@@ -4,8 +4,8 @@
   "description": "Memuy RESTful API",
   "main": "memuy_api.js",
   "scripts": {
-    "start": "node main.js",
-    "dev": "npx tsc --watch & nodemon ./dist/memuy.js"
+    "dev": "npx tsc --watch & nodemon ./dist/memuy.js",
+    "prod": "node dist/memuy.js"
   },
   "repository": {
     "type": "git",

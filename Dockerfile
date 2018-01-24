@@ -1,16 +1,13 @@
-FROM node:argon
-MAINTAINER Rodrigo Araujo <hello@dygufa.com>
+FROM node:8.1.0
 
-# Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Install app dependencies
-COPY package.json /usr/src/app/
-RUN npm install
+COPY package.json /app
+COPY yarn.lock /app
+RUN yarn install
 
-# Bundle app source
-COPY . /usr/src/app
+COPY . /app
+RUN node --max_old_space_size=4096 node_modules/typescript/bin/tsc
 
 EXPOSE 8093
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "prod" ]
