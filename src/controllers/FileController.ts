@@ -4,9 +4,10 @@ import { RoomModel as Room, FileModel as File} from "../models/";
 import { upload } from "../helpers/s3";
 import { IFileModel } from "../models/FileModel";
 import { only } from "sanitize-object";
+const md5File = require("md5-file");
 
 export const _sanitizeFile = (room: IFileModel) => {
-	const sanitizer = only("name", "location", "size", "mimetype");
+	const sanitizer = only("name", "location", "size", "mimetype", "hash");
 	return sanitizer(room);
 }
 
@@ -37,6 +38,10 @@ export const addFile = (io: SocketIO.Server) => {
 			});
 		}
 
+		const md5Hash = md5File.sync(file.path);
+
+		console.log(md5Hash);
+
 		const s3File = await upload(file);
 		// Removing local file
 		fs.unlink(file.path, (err) => {
@@ -50,7 +55,8 @@ export const addFile = (io: SocketIO.Server) => {
 			originalName: file.originalname,
 			location: s3File.Location,
 			size: file.size,
-			mimetype: file.mimetype
+			mimetype: file.mimetype,
+			hash: md5Hash
 		});
 
 		Room.findOneAndUpdate(

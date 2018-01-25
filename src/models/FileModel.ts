@@ -9,6 +9,7 @@ export interface IFileModel extends mongoose.Document {
     mimetype: string
     originalName: string
     location: string
+    hash: string
     createdAt: Date
     updatedAt: Date
 }
@@ -18,7 +19,8 @@ const FileSchema = new Schema({
     size: Number,
     mimetype: String,
     originalName: String,
-    location: String
+    location: String,
+    hash: String
 }, {
     timestamps: true
 });

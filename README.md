@@ -64,6 +64,7 @@ File {
     location: string
     size: number
     mimetype: string
+    hash: string
 }
 ```
 
