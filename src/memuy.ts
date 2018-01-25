@@ -4,6 +4,7 @@ import * as cors from "cors";
 import * as bodyParser from "body-parser";
 import * as multer from "multer";
 import * as socketio from "socket.io";
+import { Request, Response, NextFunction } from "express";
 
 require('dotenv').config({ silent: true });
 
@@ -45,6 +46,11 @@ api.post("/rooms", RoomController.createRoom(io));
 api.post("/files", upload.single("file"), FileController.addFile(io));
 api.put("/files/:id", FileController.updateFile(io));
 api.delete("/files/:id", FileController.deleteFile(io));
+
+api.get("/_status", (req: Request, res: Response) => {
+    res.status(200).json({ "ok": true });
+});
+
 
 app.use('/v2', api);
 
