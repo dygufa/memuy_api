@@ -36,7 +36,7 @@ export const getRoom = (io: SocketIO.Server) => {
         const room = await Room.findOne({ name: roomName });
 
         if (!room) {
-            return res.send({
+            return res.status(404).send({
                 status: "fail", 
                 error: {
                     name: "roomNotFound",

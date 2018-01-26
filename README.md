@@ -68,6 +68,12 @@ File {
 }
 ```
 
+### Errors
+
+- `roomNotFound`
+- `fileMissing`
+- `invalidRoom`
+
 ## Development
 
 ### Requirements:

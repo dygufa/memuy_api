@@ -17,7 +17,7 @@ export const addFile = (io: SocketIO.Server) => {
 		const file = req.file;
 
 		if (!file) {
-			res.json({
+			res.status(422).json({
 				status: "fail",
 				error: {
 					name: "fileMissing",
@@ -29,7 +29,7 @@ export const addFile = (io: SocketIO.Server) => {
 		const room = await Room.findOne({ name: roomName });
 
 		if (!room) {
-			res.json({
+			res.status(422).json({
 				status: "fail",
 				error: {
 					name: "invalidRoom",
