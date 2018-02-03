@@ -5,8 +5,10 @@ import * as bodyParser from "body-parser";
 import * as multer from "multer";
 import * as socketio from "socket.io";
 import { Request, Response, NextFunction } from "express";
-
 require('dotenv').config({ silent: true });
+import * as Raven from "raven";
+
+Raven.config(process.env.SENTRY_DNS).install();
 
 require("./mongoose");
 
@@ -51,7 +53,6 @@ api.get("/_status", (req: Request, res: Response) => {
     res.status(200).json({ "ok": true });
 });
 
-
 app.use('/v2', api);
 
 var port = process.env.PORT || 3000;
@@ -63,9 +64,3 @@ server.listen(port, (err: any) => {
         console.log("App is ready at : " + port);
     }
 })
-
-if (process.env.environment == "production") {
-    process.on("uncaughtException", function (err) {
-        console.error(JSON.parse(JSON.stringify(err, ["stack", "message", "inner"], 2)));
-    })
-}
