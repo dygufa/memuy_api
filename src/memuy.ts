@@ -8,7 +8,9 @@ import { Request, Response, NextFunction } from "express";
 require('dotenv').config({ silent: true });
 import * as Raven from "raven";
 
-Raven.config(process.env.SENTRY_DNS).install();
+Raven.config(process.env.SENTRY_DNS, {
+    captureUnhandledRejections: true
+}).install();
 
 require("./mongoose");
 
