@@ -13,11 +13,17 @@ export const _sanitizeRoom = (room: IRoomModel) => {
 
 
 const _generateIneditRoomName = async (): Promise<string> => {
-    const wordEntry = await Word.findOne({}).exec();
+    let wordEntry = await Word.findOne({}).exec();
+    // Se não existem palavras cadastrasdas, cadastra duas palavras básicas
     if (!wordEntry) {
-        throw new Error("Não existem palavras cadastradas.");
+        const basicWord = new Word({
+            word: "hi",
+            language: "eng"
+        });
+        await basicWord.save();
+        let wordEntry = basicWord;
     }
-    const word = wordEntry.word;
+    const word = wordEntry!.word;
     const code = Math.floor(Math.random() * 9000) + 1000;
     const roomName = word + code;
     
