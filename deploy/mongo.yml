@@ -37,13 +37,11 @@ kind: Service
 metadata:
   namespace: memuy
   name: mongo
-  labels:
-    statefulset.kubernetes.io/pod-name: mongo-0
 spec:
   ports:
-   - port: 27017
+    - port: 27017
   selector:
-   app: mongo
+    statefulset.kubernetes.io/pod-name: mongo-0
 ---
 
 apiVersion: apps/v1beta1
