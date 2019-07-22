@@ -2,9 +2,8 @@ FROM node:8.1.0
 
 WORKDIR /app
 
-COPY package.json /app
-COPY yarn.lock /app
-RUN yarn install
+COPY package.json package-lock.json /app/
+RUN npm ci
 
 COPY . /app
 RUN node --max_old_space_size=4096 node_modules/typescript/bin/tsc
