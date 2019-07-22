@@ -38,7 +38,7 @@ metadata:
   namespace: memuy
   name: mongo
   labels:
-    app: mongo
+    statefulset.kubernetes.io/pod-name: mongo-0
 spec:
   ports:
    - port: 27017
@@ -74,3 +74,4 @@ spec:
         - name: mongo-persistent-storage
           persistentVolumeClaim:
             claimName: mongo-pv-claim
+---
