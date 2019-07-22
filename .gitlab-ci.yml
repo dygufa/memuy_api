@@ -28,6 +28,6 @@ deploy:
     - sed -i "s/\$AWS_ACCESS_KEY_ID/${AWS_ACCESS_KEY_ID}/g" deploy/app.yml
     - sed -i "s~\$AWS_SECRET_ACCESS_KEY~${AWS_SECRET_ACCESS_KEY}~g" deploy/app.yml
     - sed -i "s/\$S3_BUCKET/${S3_BUCKET}/g" deploy/app.yml
-    - sed -i "s/\$SENTRY_DNS/${SENTRY_DNS}/g" deploy/app.yml
+    - sed -i "s~\$SENTRY_DNS~${SENTRY_DNS}~g" deploy/app.yml
     - cat deploy/*.yml > tmp
     - kubectl apply -f tmp
