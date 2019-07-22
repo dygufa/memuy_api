@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: memuy-ingress
+  namespace: memuy
+spec:
+  rules:
+  - host: api.memuy.com
+    http:
+      paths:
+      - backend:
+          serviceName: memuy-app
+          servicePort: 8000
+---

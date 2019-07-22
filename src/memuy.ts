@@ -20,15 +20,15 @@ let app = express();
 const server = http.createServer(app);
 
 var cwd = process.cwd();
-var upload = multer({dest: cwd + "/static_content/temporary_files"});
+var upload = multer({ dest: cwd + "/static_content/temporary_files" });
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 let socketio_options = {};
 if (process.env.NODE_ENV === "development") {
-    socketio_options = {"origins": "*:*"};
+    socketio_options = { "origins": "*:*" };
 }
 socketio(socketio_options);
 const io = socketio.listen(server, {
@@ -43,6 +43,12 @@ io.on("connection", socket => {
 });
 
 const api = express.Router();
+
+api.get("/", (req, res) => {
+    res.json({
+        ok: true
+    });
+})
 
 api.get("/rooms/:name", RoomController.getRoom(io));
 api.post("/rooms", RoomController.createRoom(io));

@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memuy-app
+  namespace: memuy
+spec:
+  selector:
+    matchLabels:
+      app: memuy-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: memuy-app
+    spec:
+      imagePullSecrets:
+        - name: gitlab-registry
+      containers:
+        - name: memuy-app
+          image: registry.gitlab.com/dygufa/memuy_api:v$CI_PIPELINE_ID
+          env:
+            - name: MONGO_URL
+              value: $MONGO_URL
+            - name: PORT
+              value: $PORT
+            - name: NODE_ENV
+              value: $NODE_ENV
+            - name: AWS_ACCESS_KEY_ID
+              value: $AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              value: $AWS_SECRET_ACCESS_KEY
+            - name: S3_BUCKET
+              value: $S3_BUCKET
+            - name: SENTRY_DNS
+              value: $SENTRY_DNS
+          readinessProbe:
+            httpGet:
+              path: /v2/
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 1
+          ports:
+            - containerPort: 8000
+              name: http
+          resources:
+            limits:
+              memory: 600Mi
+              cpu: 500m
+            requests:
+              memory: 50Mi
+              cpu: 5m
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: memuy-app
+  namespace: memuy
+spec:
+  ports:
+    - name: http
+      port: 8000
+  selector:
+    app: memuy-app
+---
