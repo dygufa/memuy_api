@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: CronJob
+metadata:
+  name: memuy-cron
+  namespace: memuy
+spec:
+  schedule: "0 * * * *"
+  selector:
+    matchLabels:
+      app: memuy-cron
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: memuy-cron
+    spec:
+      imagePullSecrets:
+        - name: gitlab-registry
+      containers:
+        - name: memuy-cron
+          image: registry.gitlab.com/dygufa/memuy_api:v$CI_PIPELINE_ID
+          command: ["npm", "run", "cron"]
+          env:
+            - name: MONGO_URL
+              value: $MONGO_URL
+            - name: PORT
+              value: "$PORT"
+            - name: NODE_ENV
+              value: $NODE_ENV
+            - name: AWS_ACCESS_KEY_ID
+              value: $AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              value: $AWS_SECRET_ACCESS_KEY
+            - name: S3_BUCKET
+              value: $S3_BUCKET
+            - name: SENTRY_DNS
+              value: $SENTRY_DNS
+          resources:
+            limits:
+              memory: 600Mi
+              cpu: 500m
+            requests:
+              memory: 50Mi
+              cpu: 5m
+---
+

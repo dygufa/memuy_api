@@ -5,7 +5,8 @@
   "main": "memuy_api.js",
   "scripts": {
     "dev": "npx tsc --watch & nodemon ./dist/memuy.js",
-    "prod": "node dist/memuy.js"
+    "prod": "node dist/memuy.js",
+    "cron": "node dist/cron.js"
   },
   "repository": {
     "type": "git",
