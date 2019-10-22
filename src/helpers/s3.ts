@@ -9,10 +9,10 @@ const s3 = new aws.S3();
 
 function fileExtension(file: Express.Multer.File) {
     let extension = mime.extension(file.mimetype);
-    
+
     if (!extension) {
         const re = /(?:\.([^.]+))?$/;
-        extension = re.exec(file.originalname)![1];  
+        extension = re.exec(file.originalname)![1];
     }
 
     return extension;
@@ -22,11 +22,11 @@ export async function upload(file: Express.Multer.File) {
     if (!S3_BUCKET) {
         throw new Error("S3_BUCKET is not defined");
     }
-    
+
     const filename = slug(file.originalname.replace(/\.[^/.]+$/, ""));
     const extension = fileExtension(file);
 
-    const newFilename = Date.now().toString() + '-' + filename + '.' + extension;
+    const newFilename = Date.now().toString() + "-" + filename + "." + extension;
 
     const fileStream = fs.createReadStream(file.path);
 
@@ -35,8 +35,8 @@ export async function upload(file: Express.Multer.File) {
             Bucket: S3_BUCKET,
             Key: newFilename,
             ContentType: file.mimetype,
-            ACL: 'public-read',
-            Body: fileStream
+            ACL: "public-read",
+            Body: fileStream,
         }).send((err, data) => {
             if (err) {
                 return reject(err);
@@ -44,5 +44,4 @@ export async function upload(file: Express.Multer.File) {
             return resolve(data);
         });
     });
-
 }

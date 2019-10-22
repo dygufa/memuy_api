@@ -5,7 +5,11 @@
   "main": "memuy_api.js",
   "scripts": {
     "dev": "npx tsc --watch & nodemon ./dist/memuy.js",
-    "prod": "node dist/memuy.js"
+    "prod": "node dist/memuy.js",
+    "eslint:fix": "eslint --fix 'src/**/*.ts'",
+    "eslint:check": "eslint 'src/**/*.ts'",
+    "check-prettier": "prettier --list-different src/*.ts src/**/*.ts src/**/**/*.ts src/**/**/**/*.ts",
+    "fix-prettier": "prettier --write src/*.ts src/**/*.ts src/**/**/*.ts src/**/**/**/*.ts"
   },
   "repository": {
     "type": "git",
@@ -58,7 +62,13 @@
     "webpack-node-externals": "^1.6.0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.5.0",
+    "@typescript-eslint/parser": "^2.5.0",
+    "eslint": "^6.5.1",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "nodemon": "^1.14.7",
+    "prettier": "^1.18.2",
     "ts-node": "^4.1.0"
   }
 }
