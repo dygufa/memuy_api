@@ -1,24 +1,27 @@
-require('dotenv').config({ silent: true });
+require("dotenv").config({ silent: true });
 import "../mongoose";
-import { WordModel as Word} from "../models/";
+import { WordModel as Word } from "../models/";
 
 Word.findOne({}, function(err, res) {
-	if (err) {
-		return console.log(err);
+    if (err) {
+        return console.log(err);
     }
-    
-    Word.insertMany([
-        {
-            word: "hi",
-            language: "eng",
+
+    Word.insertMany(
+        [
+            {
+                word: "hi",
+                language: "eng",
+            },
+            {
+                word: "car",
+                language: "eng",
+            },
+        ],
+        function(err) {
+            if (err) {
+                console.log(err);
+            }
         },
-        {
-            word: "car",
-            language: "eng",
-        }
-    ], function (err) {
-        if (err) {
-            console.log(err);
-        }
-    });
+    );
 });
