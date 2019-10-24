@@ -3,12 +3,16 @@ kind: Ingress
 metadata:
   name: memuy-ingress
   namespace: memuy
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "99m"
+---
 spec:
   rules:
-  - host: api.memuy.com
-    http:
-      paths:
-      - backend:
-          serviceName: memuy-app
-          servicePort: 8000
+    - host: api.memuy.com
+      http:
+        paths:
+          - backend:
+              serviceName: memuy-app
+              servicePort: 8000
 ---
+
