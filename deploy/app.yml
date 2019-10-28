@@ -14,7 +14,7 @@ spec:
         app: memuy-app
     spec:
       imagePullSecrets:
-        - name: gitlab-registry
+        - name: ecr
       containers:
         - name: memuy-app
           image: registry.gitlab.com/dygufa/memuy_api:$CI_PIPELINE_ID
