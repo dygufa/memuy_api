@@ -27,7 +27,7 @@ jobs:
           kubectl config set-credentials gitlab --token="${{ secrets.USER_TOKEN }}"
           kubectl config set-context default --cluster=k8s --user=gitlab
           kubectl config use-context default
-          sed -i "s/\$CI_PIPELINE_ID/${{ secrets.CI_PIPELINE_ID }}/g" deploy/app.yml
+          sed -i "s/\$CI_PIPELINE_ID/${{ github.sha }}/g" deploy/app.yml
           sed -i "s~\$MONGO_URL~${{ secrets.MONGO_URL }}~g" deploy/app.yml
           sed -i "s/\$PORT/${{ secrets.PORT }}/g" deploy/app.yml
           sed -i "s~\$NODE_ENV~${{ secrets.NODE_ENV }}~g" deploy/app.yml
