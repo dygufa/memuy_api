@@ -17,7 +17,7 @@ spec:
         - name: ecr
       containers:
         - name: memuy-app
-          image: registry.gitlab.com/dygufa/memuy_api:$CI_PIPELINE_ID
+          image: 426782010323.dkr.ecr.us-east-1.amazonaws.com/memuy_api:$CI_PIPELINE_ID
           env:
             - name: MONGO_URL
               value: $MONGO_URL
