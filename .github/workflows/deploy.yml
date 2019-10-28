@@ -21,6 +21,7 @@ jobs:
     name: Deploy K8s
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@master
       - run: |
           kubectl config set-cluster k8s --server="${{ secrets.SERVER }}"
           kubectl config set clusters.k8s.certificate-authority-data ${{ secrets.CERTIFICATE_AUTHORITY_DATA }}
