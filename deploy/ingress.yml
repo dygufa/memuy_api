@@ -5,7 +5,6 @@ metadata:
   namespace: memuy
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "99m"
----
 spec:
   rules:
     - host: api.memuy.com
