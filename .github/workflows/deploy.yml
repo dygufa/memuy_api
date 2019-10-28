@@ -29,8 +29,8 @@ jobs:
       - run: |
           kubectl config set-cluster k8s --server="${{ secrets.SERVER }}"
           kubectl config set clusters.k8s.certificate-authority-data ${{ secrets.CERTIFICATE_AUTHORITY_DATA }}
-          kubectl config set-credentials gitlab --token="${{ secrets.USER_TOKEN }}"
-          kubectl config set-context default --cluster=k8s --user=gitlab
+          kubectl config set-credentials github --token="${{ secrets.USER_TOKEN }}"
+          kubectl config set-context default --cluster=k8s --user=github
           kubectl config use-context default
           sed -i "s/\$CI_PIPELINE_ID/${{ github.sha }}/g" deploy/app.yml
           sed -i "s~\$MONGO_URL~${{ secrets.MONGO_URL }}~g" deploy/app.yml
