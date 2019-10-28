@@ -17,7 +17,7 @@ spec:
         - name: gitlab-registry
       containers:
         - name: memuy-app
-          image: registry.gitlab.com/dygufa/memuy_api:v$CI_PIPELINE_ID
+          image: registry.gitlab.com/dygufa/memuy_api:$CI_PIPELINE_ID
           env:
             - name: MONGO_URL
               value: $MONGO_URL
@@ -50,7 +50,6 @@ spec:
               memory: 50Mi
               cpu: 5m
 ---
-
 kind: Service
 apiVersion: v1
 metadata:
@@ -63,3 +62,4 @@ spec:
   selector:
     app: memuy-app
 ---
+
