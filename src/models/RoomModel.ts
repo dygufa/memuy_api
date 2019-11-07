@@ -1,11 +1,12 @@
 import * as mongoose from "mongoose";
 var Schema = mongoose.Schema;
+import { IFileModel} from "./FileModel";
 
 export interface IRoomModel extends mongoose.Document {
     name: string
     status: string
     expiresOn: Date
-    files: any
+    files: IFileModel[]
     usedSpace: number
     maxSpace: number
     createdAt: Date
