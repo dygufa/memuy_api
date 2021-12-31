@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Login to ECR
-        run: eval $(aws ecr get-login --no-include-email --region us-east-1)
+        run: eval $(aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 426782010323.dkr.ecr.us-east-1.amazonaws.com)
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
