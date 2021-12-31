@@ -1,19 +1,20 @@
 # Memuy
 App for sharing file between devices using short urls.
 
-[![Build Status](https://travis-ci.org/dygufa/memuy_api.svg?branch=master)](https://travis-ci.org/dygufa/memuy_api)
+[![Deploy](https://github.com/dygufa/memuy_api/actions/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/dygufa/memuy_api/actions/workflows/deploy.yml)
+
 ## Using
 
-### Response 
+### Response
 
 The response from the API is formatted as:
 
 ```
 {
     status: fail | success
-    data?: any 
+    data?: any
     error?:  Error
-} 
+}
 
 Error {
     name: string
@@ -40,7 +41,7 @@ In order to notify all tabs with a specific room open about new uploaded files t
 {
     roomName: string
     file: File
-}  
+}
 ```
 
 ### Types
