@@ -42,7 +42,7 @@
     "raven": "^2.4.0",
     "sanitize-object": "^0.1.0",
     "slug": "^0.9.1",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.5.0",
     "tslint": "^5.4.3",
     "typescript": "^2.4.1"
   },
